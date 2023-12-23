@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "bank-flask-app"
+version = "0.1.0"
+description = ""
+authors = ["SW GA SUKI DA TO SAKABITAI <timothy_shee@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+flask = "^3.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+foo = "foo.bar.main:main"
