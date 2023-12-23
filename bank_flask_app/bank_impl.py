@@ -2,7 +2,7 @@ import abc
 import math
 from typing import Deque, Dict, List, Optional, Union
 
-from bank_flask_app import Bank
+from bank_flask_app.bank import Bank
 
 
 #=================
@@ -14,6 +14,8 @@ class Account:
         self.amount = amount
         self.outgoing = outgoing
 
+    def __repr__(self):
+        return f"<Account at {self.account_id}>"
 class Payment(abc.ABC):
     def __init__(self, payment_id: str, timestamp: int, amount=0):
         self.payment_id = payment_id
@@ -94,12 +96,14 @@ class BankImpl(Bank):
         return True
     
     def top_ranked(self, num_accounts=math.inf) -> List[str]:
-        def account_sort(account_id, outgoing):
-            return account_id, -outgoing
+        def account_sort(account: Account):
+            return -account.outgoing, account.account_id
+        def stringify(account_list: List[Account]) -> List[str]:
+            return [f"<{account.account_id}:{account.outgoing}>" for account in account_list]
         sorted_accounts = sorted([account for account in self.bank.values()], key=account_sort)
         if len(sorted_accounts) < num_accounts:
-            return sorted_accounts
-        return sorted_accounts[:num_accounts]
+            return stringify(sorted_accounts)
+        return stringify(sorted_accounts[:num_accounts])
 
     def _execute_scheduled(self, timestamp: int):
         if timestamp in self.scheduled:
@@ -174,5 +178,5 @@ class BankImpl(Bank):
     def _get_accounts(self):
         return self.bank.values()
     def _get_account_ids(self):
-        return [account.id for account in self.bank.values()]
+        return [account.account_id for account in self.bank.values()]
 

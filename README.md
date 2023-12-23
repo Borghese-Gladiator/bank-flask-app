@@ -42,6 +42,7 @@ def transaction_history(timestamp: int, account_id: str) -> List[Dict[str, Union
 - `python -m flask --app bank_flask_app run --port 8000 --debug`
 - write tests
   - `test_bank_impl.py`
+- `poetry run python -m unittest  # run at root (bank_flask_app) `
 
 ## References
 - https://realpython.com/flask-project/
